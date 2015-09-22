@@ -1,0 +1,14 @@
+[spine]
+spine1
+# spine2
+
+[leaf]
+leaf[1:2]
+
+[servers]
+jessie[1:2]
+
+[all:children]
+spine
+leaf
+servers

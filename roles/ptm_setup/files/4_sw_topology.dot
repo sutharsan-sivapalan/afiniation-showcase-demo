@@ -1,0 +1,6 @@
+graph G {
+    "spine1":swp1 -- "leaf1":swp1
+    "spine1":swp2 -- "leaf2":swp2
+    "spine2":swp1 -- "leaf2":swp1
+    "spine2":swp2 -- "leaf1":swp2
+}

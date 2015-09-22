@@ -1,0 +1,12 @@
+---
+- hosts: leaf
+  roles:
+    - ptm_setup
+  handlers:
+    - include : handlers/main.yml
+
+- hosts: spine
+  roles:
+    - ptm_setup
+  handlers:
+    - include : handlers/main.yml

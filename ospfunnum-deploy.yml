@@ -1,0 +1,17 @@
+---
+- hosts: spine
+  roles:
+    - ospfunnum
+  vars_files:
+    - roles/ospfunnum/vars/main-2lt22s.yml
+  handlers:
+    - include: handlers/main.yml
+
+- hosts: leaf
+  user: root
+  roles:
+    - ospfunnum
+  vars_files:
+    - roles/ospfunnum/vars/main-2lt22s.yml
+  handlers:
+    - include : handlers/main.yml
