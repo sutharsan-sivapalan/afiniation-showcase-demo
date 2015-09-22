@@ -1,0 +1,17 @@
+- name: Restoring /etc/network/interfaces
+  copy: src=interfaces dest=/etc/network/interfaces
+  
+- name: Restoring /etc/quagga/daemons
+  copy: src=daemons dest=/etc/quagga/daemons
+
+- name: Deleting /etc/quagga/Quagga.conf
+  file: path=/etc/quagga/Quagga.conf state=absent
+
+- name: Restoring /etc/motd/
+  copy: src=motd dest=/etc/motd
+
+- name: Resetting /var/lib/cumulus/autoprovision.conf
+  lineinfile: dest=/var/lib/cumulus/autoprovision.conf regexp='complete = True'  line='complete = False'
+
+- name: Rebooting the switch
+  command: /sbin/reboot

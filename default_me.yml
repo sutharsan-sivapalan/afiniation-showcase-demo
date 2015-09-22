@@ -1,0 +1,8 @@
+---
+- hosts: spine
+  roles:
+    - default_me
+
+- hosts: leaf 
+  roles:
+    - default_me
