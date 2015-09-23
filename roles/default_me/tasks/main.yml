@@ -7,11 +7,17 @@
 - name: Deleting /etc/quagga/Quagga.conf
   file: path=/etc/quagga/Quagga.conf state=absent
 
+- name: Deleting /etc/ptm.d/topology.dot
+  file: path=/etc/ptm.d/topology.dot state=absent
+
 - name: Restoring /etc/motd/
   copy: src=motd dest=/etc/motd
 
-- name: Resetting /var/lib/cumulus/autoprovision.conf
+- name: Resetting completion in /var/lib/cumulus/autoprovision.conf
   lineinfile: dest=/var/lib/cumulus/autoprovision.conf regexp='complete = True'  line='complete = False'
+
+- name: Resetting count in /var/lib/cumulus/autoprovision.conf
+  lineinfile: dest=/var/lib/cumulus/autoprovision.conf regexp='count = \d+'  line='count = 0'
 
 - name: Rebooting the switch
   command: /sbin/reboot

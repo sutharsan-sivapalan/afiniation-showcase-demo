@@ -3,8 +3,20 @@
     unnumbered: "{{ interfaces[ansible_hostname].int_unnumbered }}"
 
 - set_fact:
+    numbered: "{{interfaces[ansible_hostname].int_numbered }}"
+  when: interfaces[ansible_hostname].int_numbered is defined
+
+- set_fact:
+    nat: "{{interfaces[ansible_hostname].int_nat }}"
+  when: interfaces[ansible_hostname].int_nat is defined
+
+- set_fact:
     bridges: "{{ interfaces[ansible_hostname].bridges }}"
   when: interfaces[ansible_hostname].bridges is defined
+
+- set_fact:
+    network: "{{ subnets[ansible_hostname].network }}"
+  when: subnets[ansible_hostname].network is defined
 
 - name: configure loopback interface
   cl_interface:
@@ -22,3 +34,18 @@
   with_items: unnumbered
   when: unnumbered is defined
 
+- name: configure NAT interfaces for internet access
+  cl_interface:
+    name: '{{ item }}'
+    addr_method: 'dhcp'
+  notify: reload networking
+  with_items: nat
+  when: nat is defined
+  
+- name: configure numbered host-facing interfaces
+  cl_interface:
+    name: '{{ item }}'
+    ipv4: '{{ network }}'
+  notify: reload networking
+  with_items: numbered
+  when: numbered is defined

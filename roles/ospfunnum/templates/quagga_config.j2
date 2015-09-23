@@ -2,11 +2,18 @@
 {% set intvars = interfaces[ansible_hostname] -%}
 {% set loopback_ip = intvars.loopback -%}
 {% set int_unnumbered = intvars.int_unnumbered -%}
+{% set int_numbered = intvars.int_numbered -%}
 {% set swbridges = intvars.bridges -%}
 
 {% for item in int_unnumbered -%}
-interface {{item }}
+interface {{ item }}
   ip ospf network point-to-point
+!
+{% endfor -%}
+!
+{% for item in int_numbered -%}
+interface {{ item }}
+  ip ospf network broadcast
 !
 {% endfor -%}
 !
@@ -14,9 +21,8 @@ router-id {{ loopback_ip }}
 router ospf
   auto-cost reference-bandwidth  40000
   ospf router-id {{ loopback_ip }}
-  passive-interface default
-{% for item in int_unnumbered %}
-  no passive-interface {{ item }}
+{% for item in int_numbered %}
+  passive-interface {{ item }}
 {% endfor %}
   network {{ loopback_ip }}/32 area 0.0.0.0
 {% if hostnetranges is defined and is_leaf is defined -%}

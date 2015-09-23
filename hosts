@@ -8,6 +8,10 @@ leaf[1:2]
 [servers]
 jessie[1:2]
 
+[networking:children]
+spine
+leaf
+
 [all:children]
 spine
 leaf
