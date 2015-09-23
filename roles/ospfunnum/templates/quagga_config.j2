@@ -29,8 +29,8 @@ router ospf
   {% endfor %}
 {% endif -%}
   network {{ loopback_ip }}/32 area 0.0.0.0
-{% if hostnetranges is defined and is_leaf is defined -%}
-  {% for item in hostnetranges %}
+{% if int_numbered is defined -%}
+  {% for item in subnets[ansible_hostname].network -%}
   network {{ item }} area 0.0.0.0
   {% endfor %}
 {% endif -%}
