@@ -11,19 +11,23 @@ interface {{ item }}
 !
 {% endfor -%}
 !
-{% for item in int_numbered -%}
+{% if int_numbered is defined -%}
+  {% for item in int_numbered -%}
 interface {{ item }}
   ip ospf network broadcast
 !
-{% endfor -%}
+  {% endfor -%}
+{% endif -%}
 !
 router-id {{ loopback_ip }}
 router ospf
   auto-cost reference-bandwidth  40000
   ospf router-id {{ loopback_ip }}
-{% for item in int_numbered %}
+{% if int_numbered is defined -%}
+  {% for item in int_numbered %}
   passive-interface {{ item }}
-{% endfor %}
+  {% endfor %}
+{% endif -%}
   network {{ loopback_ip }}/32 area 0.0.0.0
 {% if hostnetranges is defined and is_leaf is defined -%}
   {% for item in hostnetranges %}
